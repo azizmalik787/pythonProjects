@@ -1,25 +1,21 @@
-import random
-
-from player import HumanPlayer, RandomComputerPlayer
-import math
+from player import HumanPlayer, RandomComputerPlayer, SmartComputerPlayer
 import time
 
 
-class TicTacToe():
+class TicTacToe:
     def __init__(self):
-        self.board = [' ' for i in range(9)]
+        self.board = [' ' for _ in range(9)]
         self.winner = None
 
     def print_board(self):
         for row in [self.board[i * 3:(i + 1) * 3] for i in range(3)]:
-            print('|' + '| '.join(row) + ' |')
+            print('| ' + ' | '.join(row) + ' |')
 
     @staticmethod
     def print_board_nums():
         number_board = [[str(i) for i in range(j * 3, (j + 1) * 3)] for j in range(3)]
         for row in number_board:
-            print('|' + '| '.join(row) + ' |')
-        pass
+            print('| ' + ' | '.join(row) + ' |')
 
     def make_move(self, move, player_id):
         if self.board[move] == ' ':
@@ -39,7 +35,7 @@ class TicTacToe():
 
         # col check
         col_ind = move % 3
-        col = [self.board[col_ind + (i*3)] for i in range(3)]
+        col = [self.board[col_ind + (i * 3)] for i in range(3)]
         if all(mark == playerId for mark in col):
             self.winner = playerId
             return True
@@ -50,9 +46,6 @@ class TicTacToe():
             if all(mark == playerId for mark in main_diagonal) or all(mark == playerId for mark in secondary_diagonal):
                 return True
         return False
-
-
-
 
     def available_moves(self):
         return [i for i in range(len(self.board)) if self.board[i] == ' ']
@@ -69,7 +62,8 @@ def play(game, x_player, o_player, print_game=True):
     if print_game:
         game.print_board_nums()
 
-    letter = random.choice(['X', 'O'])
+    letter = 'X'
+    # letter = random.choice(['X', 'O'])
     while game.empty_spaces():
         if letter == 'X':
             move = x_player.get_move(game)
@@ -86,13 +80,14 @@ def play(game, x_player, o_player, print_game=True):
             return letter
 
         letter = 'X' if letter == 'O' else 'O'
+    time.sleep(1.0)
 
     if print_game:
         print('It\'s a Tie!!!')
 
 
 if __name__ == '__main__':
-    x_player = RandomComputerPlayer('X')
-    o_player = HumanPlayer('O')
+    X_player = SmartComputerPlayer('X')
+    O_player = HumanPlayer('O')
     t = TicTacToe()
-    play(t, x_player, o_player)
+    play(t, X_player, O_player)
