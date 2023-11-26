@@ -55,6 +55,9 @@ class SmartComputerPlayer(Player):
         other_player = 'O' if player == 'X' else 'X'
         # check winner
         if board.winner == other_player:
+            # "other_player" is the player that took the last turn, If it is the max_player
+            # (player whose actual turn it is) it will give the +ve value because it wants
+            # to max its chances. If it is not the max_player than -ve value will be returned. (MINIMAX Algo)
             return {'position': 0, 'score': 1 * (board.empty_spaces() + 1) if other_player == max_player else -1 * (
                     board.empty_spaces() + 1)}
         elif not board.empty_spaces():
